@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox prefHeight="485.0" prefWidth="762.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22">
+<VBox prefHeight="485.0" prefWidth="762.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DepartamentoListController">
    <children>
       <Label prefHeight="122.0" prefWidth="393.0" text="Registro de departemento">
          <font>
@@ -22,16 +21,16 @@
       </Label>
       <ToolBar prefHeight="40.0" prefWidth="755.0">
         <items>
-          <Button mnemonicParsing="false" text="Button" />
+          <Button fx:id="btNew" mnemonicParsing="false" onAction="#onBtNewAction" text="Button" />
         </items>
          <VBox.margin>
             <Insets left="-15.0" right="-15.0" />
          </VBox.margin>
       </ToolBar>
-      <TableView prefHeight="245.0" prefWidth="614.0">
+      <TableView fx:id="tableViewDep" prefHeight="245.0" prefWidth="614.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="ID" />
-          <TableColumn prefWidth="75.0" text="Nome" />
+          <TableColumn fx:id="tableColumnID" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="tableColumnName" prefWidth="75.0" text="Nome" />
         </columns>
          <VBox.margin>
             <Insets bottom="30.0" top="10.0" />
