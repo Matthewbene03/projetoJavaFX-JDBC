@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import application.Main;
 import application.serviços.DepartamentoServiço;
@@ -17,71 +18,55 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
-public class MainViewController implements Initializable{
-
+public class MainViewController implements Initializable {
+	
 	@FXML
 	private MenuItem menuItemFunc;
-	
+
 	@FXML
 	private MenuItem menuItemDep;
-	
+
 	@FXML
 	private MenuItem menuItemAbout;
-	
+
 	public void onMenuItemFuncAction() {
 		System.out.println("Funcionario");
 	}
-	
+
 	public void onMenuItemDepAction() {
-		loadViewDep("/gui/DepartamentoList.fxml");
-	}
-	
-	public void onMenuItemAboutAction() {
-		loadView("/gui/About.fxml");
-	}
-	
-	private synchronized void loadView(String caminho) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
-			VBox newVbox = loader.load();
-			
-			Scene scene = Main.getScene();
-			
-			VBox mainVBox = (VBox)((ScrollPane)scene.getRoot()).getContent();
-			Node nodeFilhos = mainVBox.getChildren().get(0);
-			mainVBox.getChildren().clear();
-			mainVBox.getChildren().add(nodeFilhos);
-			mainVBox.getChildren().addAll(newVbox);
-			
-		} catch(IOException e) {
-			Alerts.showAlert("Error!!!", "Erro de carregamento", e.getMessage(), AlertType.ERROR);
-		}
-	}
-	
-	private synchronized void loadViewDep(String caminho) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
-			VBox newVbox = loader.load();
-			
-			Scene scene = Main.getScene();
-			
-			VBox mainVBox = (VBox)((ScrollPane)scene.getRoot()).getContent();
-			Node nodeFilhos = mainVBox.getChildren().get(0);
-			mainVBox.getChildren().clear();
-			mainVBox.getChildren().add(nodeFilhos);
-			mainVBox.getChildren().addAll(newVbox);
-			
-			DepartamentoListController controller = loader.getController();
+		loadView("/gui/DepartamentoList.fxml", (DepartamentoListController controller) ->{
 			controller.setDepServico(new DepartamentoServiço());
 			controller.uptadeTableView();
+		});
+	}
+
+	public void onMenuItemAboutAction() {
+		loadView("/gui/About.fxml", x -> {});
+	}
+
+	private synchronized <T> void loadView(String caminho, Consumer<T> consumer) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
+			VBox newVbox = loader.load();
+
+			Scene scene = Main.getScene();
+
+			VBox mainVBox = (VBox) ((ScrollPane) scene.getRoot()).getContent();
+			Node nodeFilhos = mainVBox.getChildren().get(0);
+			mainVBox.getChildren().clear();
+			mainVBox.getChildren().add(nodeFilhos);
+			mainVBox.getChildren().addAll(newVbox);
 			
-		} catch(IOException e) {
+			T controller = loader.getController();
+			consumer.accept(controller);
+
+		} catch (IOException e) {
 			Alerts.showAlert("Error!!!", "Erro de carregamento", e.getMessage(), AlertType.ERROR);
 		}
 	}
-	
+
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {		
+	public void initialize(URL arg0, ResourceBundle arg1) {
 	}
 
 }
