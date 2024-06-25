@@ -57,8 +57,8 @@ public class DepartamentoListController implements Initializable{
 
 
 	private void initializeNodes() {
-		tableColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+		tableColumnID.setCellValueFactory(new PropertyValueFactory<>("idDepartamento"));
+		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("nomeDepartamento"));
 		
 		Stage stage = (Stage)Main.getScene().getWindow();
 		tableViewDep.prefHeightProperty().bind(stage.heightProperty());

@@ -1,65 +1,62 @@
 package application.entidades;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Departamento implements Serializable {
-
 	private static final long serialVersionUID = 1L;
+	
+	private Integer idDepartamento;
+    private String nomeDepartamento;
 
-	private Integer id;
-	private String name;
+    public Departamento (){}
+    
+    public Departamento(Integer idDepartamento, String nomeDepartamento) {
+        this.idDepartamento = idDepartamento;
+        this.nomeDepartamento = nomeDepartamento;
+    }
 
-	public Departamento() {
-	}
+    public Integer getIdDepartamento() {
+        return idDepartamento;
+    }
 
-	public Departamento(Integer id, String name) {
-		this.id = id;
-		this.name = name;
-	}
+    public void setIdDepartamento(Integer idDepartamento) {
+        this.idDepartamento = idDepartamento;
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public String getNomeDepartamento() {
+        return nomeDepartamento;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setNomeDepartamento(String nomeDepartamento) {
+        this.nomeDepartamento = nomeDepartamento;
+    }
 
-	public String getName() {
-		return name;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.idDepartamento);
+        return hash;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Departamento other = (Departamento) obj;
+        return Objects.equals(this.idDepartamento, other.idDepartamento);
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Departamento other = (Departamento) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Department [id=" + id + ", name=" + name + "]";
-	}
+    
+    @Override
+    public String toString() {
+        return "Departamento{" + "idDepartamento=" + idDepartamento + ", nomeDepartamento=" + nomeDepartamento + '}';
+    }
 }
