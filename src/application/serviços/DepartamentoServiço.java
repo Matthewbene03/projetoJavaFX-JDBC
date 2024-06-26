@@ -14,4 +14,8 @@ public class DepartamentoServiço {
 		return depDAO.findAll();
 	}
 
+	public void insertDep (Departamento departamento) {
+		depDAO.insert(departamento);
+	}
+	
 }

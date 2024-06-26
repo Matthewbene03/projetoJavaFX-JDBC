@@ -21,7 +21,7 @@
       </Label>
       <ToolBar prefHeight="40.0" prefWidth="755.0">
         <items>
-          <Button fx:id="btNew" mnemonicParsing="false" onAction="#onBtNewAction" text="Button" />
+          <Button fx:id="btNew" mnemonicParsing="false" onAction="#onBtNewAction" text="New Department" />
         </items>
          <VBox.margin>
             <Insets left="-15.0" right="-15.0" />
