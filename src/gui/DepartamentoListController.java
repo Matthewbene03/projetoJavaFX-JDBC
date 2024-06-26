@@ -1,19 +1,28 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import application.Main;
 import application.entidades.Departamento;
 import application.serviços.DepartamentoServiço;
+import gui.util.Alerts;
+import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class DepartamentoListController implements Initializable{
@@ -45,8 +54,9 @@ public class DepartamentoListController implements Initializable{
 	}
 	
 	
-	public void onBtNewAction() {
-		System.out.println("btNew");
+	public void onBtNewAction(ActionEvent actionEv) {
+		Stage stage = Utils.currentStage(actionEv);
+		this.createDialogForm("/gui/DepartmentForm.fxml", stage);
 	}
 	
 	
@@ -67,6 +77,24 @@ public class DepartamentoListController implements Initializable{
 	public void uptadeTableView() {
 		obsListDep = FXCollections.observableList(depServico.findAll());
 		tableViewDep.setItems(obsListDep);
+	}
+	
+	public void createDialogForm (String caminho, Stage parentStage) {
+		try {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
+		Pane pane = loader.load();
+		
+		Stage newStage = new Stage();
+		newStage.setTitle("Enter departament: ");
+		newStage.setScene(new Scene(pane));
+		newStage.setResizable(false);
+		newStage.initOwner(parentStage);
+		newStage.initModality(Modality.WINDOW_MODAL);
+		newStage.showAndWait();
+		
+		} catch(IOException e) {
+			Alerts.showAlert("IO exception", "Error para carregar pagina", e.getMessage(), AlertType.ERROR);
+		}
 	}
 
 }
