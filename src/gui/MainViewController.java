@@ -55,7 +55,7 @@ public class MainViewController implements Initializable {
 			Node nodeFilhos = mainVBox.getChildren().get(0);
 			mainVBox.getChildren().clear();
 			mainVBox.getChildren().add(nodeFilhos);
-			mainVBox.getChildren().addAll(newVbox);
+			mainVBox.getChildren().addAll(newVbox.getChildren());
 			
 			T controller = loader.getController();
 			consumer.accept(controller);

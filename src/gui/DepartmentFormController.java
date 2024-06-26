@@ -3,13 +3,16 @@ package gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import DB.DbException;
 import application.entidades.Departamento;
 import application.serviços.DepartamentoServiço;
+import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -43,10 +46,13 @@ public class DepartmentFormController implements Initializable{
 		if(depSer == null) {
 			throw new NullPointerException("Servicço de departamento NULL");
 		}
-		
-		this.dep = saveDepartment();
-		depSer.saveOrUpdate(dep);
-		Utils.currentStage(event).close();
+		try {
+			this.dep = saveDepartment();
+			depSer.saveOrUpdate(dep);
+			Utils.currentStage(event).close();
+		} catch(DbException e) {
+			Alerts.showAlert("ERROR! Ao salvar!", null, e.getMessage(), AlertType.ERROR);
+		}
 	}
 	
 	@FXML

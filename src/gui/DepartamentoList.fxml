@@ -24,7 +24,7 @@
           <Button fx:id="btNew" mnemonicParsing="false" onAction="#onBtNewAction" text="New Department" />
         </items>
          <VBox.margin>
-            <Insets left="-15.0" right="-15.0" />
+            <Insets left="10.0" right="-15.0" />
          </VBox.margin>
       </ToolBar>
       <TableView fx:id="tableViewDep" prefHeight="245.0" prefWidth="614.0">
