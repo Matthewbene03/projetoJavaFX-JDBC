@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 import application.entidades.Departamento;
 import application.serviços.DepartamentoServiço;
 import gui.util.Constraints;
+import gui.util.Utils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -34,23 +36,28 @@ public class DepartmentFormController implements Initializable{
 	private Label lbMsgError;
 	
 	@FXML
-	public void onBtSaveAction() {
+	public void onBtSaveAction(ActionEvent event) {
+		if(dep == null) {
+			throw new NullPointerException("Departamento NULL");
+		}
 		if(depSer == null) {
 			throw new NullPointerException("Servicço de departamento NULL");
 		}
-		Departamento auxDep = this.saveDepartment();
-		depSer.insertDep(auxDep);
-		System.out.println("Salvo com sucesso!");
+		
+		this.dep = saveDepartment();
+		depSer.saveOrUpdate(dep);
+		Utils.currentStage(event).close();
 	}
 	
 	@FXML
-	public void onBtCancelAction() {
-		System.out.println("cancel");
+	public void onBtCancelAction(ActionEvent event) {
+		Utils.currentStage(event).close();
 	}
 	
 	private Departamento saveDepartment () {
 		Departamento dep = new Departamento();
-		dep.setNomeDepartamento(String.valueOf(txtName.getText()));
+		dep.setIdDepartamento(Utils.tryParseToInt(txtId.getText()));
+		dep.setNomeDepartamento(txtName.getText());
 		return dep;
 	}
 	

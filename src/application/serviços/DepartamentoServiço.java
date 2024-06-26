@@ -14,8 +14,12 @@ public class DepartamentoServiço {
 		return depDAO.findAll();
 	}
 
-	public void insertDep (Departamento departamento) {
-		depDAO.insert(departamento);
+	public void saveOrUpdate (Departamento departamento) {
+		if(departamento.getIdDepartamento() == null) {
+			depDAO.insert(departamento);
+		} else {
+			depDAO.update(departamento);
+		}
 	}
 	
 }
