@@ -57,7 +57,7 @@ public class DepartamentoListController implements Initializable, DataChangeList
 	
 	public void onBtNewAction(ActionEvent actionEv) {
 		Stage stage = Utils.currentStage(actionEv);
-		Departamento auxDep = new Departamento();
+		Departamento auxDep = new Departamento(null, "");
 		this.createDialogForm(auxDep, "/gui/DepartmentForm.fxml", stage);
 	}
 	

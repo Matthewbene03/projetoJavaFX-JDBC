@@ -3,10 +3,13 @@ package gui;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import DB.DbException;
 import application.entidades.Departamento;
+import application.exception.ValidationException;
 import application.serviços.DepartamentoServiço;
 import gui.listener.DataChangeListener;
 import gui.util.Alerts;
@@ -58,6 +61,8 @@ public class DepartmentFormController implements Initializable{
 			Utils.currentStage(event).close();
 		} catch(DbException e) {
 			Alerts.showAlert("ERROR! Ao salvar!", null, e.getMessage(), AlertType.ERROR);
+		} catch (ValidationException e) {
+			setErrorMessages(e.getMapErrors());
 		}
 	}
 	
@@ -78,8 +83,19 @@ public class DepartmentFormController implements Initializable{
 	
 	private Departamento saveDepartment () {
 		Departamento dep = new Departamento();
+		
+		ValidationException validationE = new ValidationException("Validation error!");
+				
 		dep.setIdDepartamento(Utils.tryParseToInt(txtId.getText()));
+		if(txtName.getText() == null || txtName.getText().trim().equals("")) {
+			validationE.addErrors("name", "Field can't be empty");
+		}
 		dep.setNomeDepartamento(txtName.getText());
+		
+		if(validationE.getMapErrors().size()>0) {
+			throw validationE;
+		}
+		
 		return dep;
 	}
 	
@@ -102,4 +118,13 @@ public class DepartmentFormController implements Initializable{
 		this.dep = dep;
 	}
 
+	private void setErrorMessages(Map <String, String> errors) {
+		Set<String> keysErros = errors.keySet();
+		
+		if(keysErros.contains("name")) {
+			lbMsgError.setText(errors.get("name"));
+		}
+		
+	}
+	
 }
