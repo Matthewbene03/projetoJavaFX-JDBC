@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import application.Main;
 import application.entidades.Departamento;
 import application.serviços.DepartamentoServiço;
+import gui.listener.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -25,7 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class DepartamentoListController implements Initializable{
+public class DepartamentoListController implements Initializable, DataChangeListener{
 
 	private DepartamentoServiço depServico;
 	
@@ -88,6 +89,7 @@ public class DepartamentoListController implements Initializable{
 		DepartmentFormController controller = loader.getController();
 		controller.setDepartamento(auxDep);
 		controller.updateDepartamentoDate();
+		controller.subscribeDataChangeListener(this);
 		controller.setDepServico(new DepartamentoServiço());
 		
 		Stage newStage = new Stage();
@@ -101,6 +103,12 @@ public class DepartamentoListController implements Initializable{
 		} catch(IOException e) {
 			Alerts.showAlert("IO exception", "Error para carregar pagina", e.getMessage(), AlertType.ERROR);
 		}
+	}
+
+
+	@Override
+	public void onDataChanged() {
+		this.uptadeTableView();
 	}
 
 }
