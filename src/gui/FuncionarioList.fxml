@@ -27,12 +27,15 @@
             <Insets left="10.0" right="-15.0" />
          </VBox.margin>
       </ToolBar>
-      <TableView fx:id="tableViewFuc" prefHeight="245.0" prefWidth="614.0">
+      <TableView fx:id="tableViewFuc" prefHeight="245.0" prefWidth="747.0">
         <columns>
           <TableColumn fx:id="tableColumnID" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="tableColumnName" prefWidth="75.0" text="Nome" />
-            <TableColumn fx:id="tableColumnEDIT" prefWidth="75.0" />
-            <TableColumn fx:id="tableColumnREMOVE" prefWidth="75.0" />
+            <TableColumn fx:id="tableColumnEmail" prefWidth="132.0" text="Email" />
+            <TableColumn fx:id="tableColumnDataNascimento" prefWidth="148.0" text="Data de nascimento" />
+            <TableColumn fx:id="tableColumnSalario" prefWidth="113.0" text="Salario" />
+            <TableColumn fx:id="tableColumnEDIT" prefWidth="85.0" />
+            <TableColumn fx:id="tableColumnREMOVE" prefWidth="83.0" />
         </columns>
          <VBox.margin>
             <Insets bottom="30.0" top="10.0" />
