@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 import application.Main;
 import application.serviços.DepartamentoServiço;
+import application.serviços.FuncionarioServiço;
 import gui.util.Alerts;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +31,10 @@ public class MainViewController implements Initializable {
 	private MenuItem menuItemAbout;
 
 	public void onMenuItemFuncAction() {
-		System.out.println("Funcionario");
+		loadView("/gui/FuncionarioList.fxml", (FuncionarioListController controller) ->{
+			controller.setFucServico(new FuncionarioServiço());
+			controller.uptadeTableView();
+		});
 	}
 
 	public void onMenuItemDepAction() {
@@ -61,7 +65,7 @@ public class MainViewController implements Initializable {
 			consumer.accept(controller);
 
 		} catch (IOException e) {
-			Alerts.showAlert("Error!!!", "Erro de carregamento", e.getMessage(), AlertType.ERROR);
+			Alerts.showAlert("É aqui!", "Erro de carregamento", e.getMessage(), AlertType.ERROR);
 		}
 	}
 
