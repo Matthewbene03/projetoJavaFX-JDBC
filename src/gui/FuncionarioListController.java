@@ -8,7 +8,9 @@ import java.util.ResourceBundle;
 
 import DB.DbException;
 import application.Main;
+import application.entidades.Departamento;
 import application.entidades.Funcionario;
+import application.serviços.DepartamentoServiço;
 import application.serviços.FuncionarioServiço;
 import gui.listener.DataChangeListener;
 import gui.util.Alerts;
@@ -76,7 +78,7 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 
 	public void onBtNewAction(ActionEvent actionEv) {
 		Stage stage = Utils.currentStage(actionEv);
-		Funcionario auxFuc = new Funcionario(null, "", null, null, "", null);
+		Funcionario auxFuc = new Funcionario(null, "", null, null, "", null);		
 		this.createDialogForm(auxFuc, "/gui/FuncionarioForm.fxml", stage);
 	}
 
@@ -115,6 +117,8 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 			controller.updateFuncionarioDate();
 			controller.subscribeDataChangeListener(this);
 			controller.setFucServico(new FuncionarioServiço());
+			controller.setDepSer(new DepartamentoServiço());
+			controller.loadAssociatedObjects();
 
 			Stage newStage = new Stage();
 			newStage.setTitle("Enter funcionario: ");
