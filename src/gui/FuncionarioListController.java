@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 
 import DB.DbException;
 import application.Main;
-import application.entidades.Departamento;
 import application.entidades.Funcionario;
 import application.serviços.DepartamentoServiço;
 import application.serviços.FuncionarioServiço;

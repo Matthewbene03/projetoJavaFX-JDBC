@@ -1,9 +1,11 @@
 package gui;
 
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -134,11 +136,27 @@ public class FuncionarioFormController implements Initializable {
 		if (txtEmail.getText() == null || txtEmail.getText().trim().equals("")) {
 			validationE.addErrors("email", "Field can't be empty");
 		}
+		fuc.setEmail(txtEmail.getText());
 
-		if (datePickerDataNascimento == null) {
+		if (datePickerDataNascimento.getValue() == null) {
 			validationE.addErrors("Data", "Field can't be empty");
+		} else {
+			Instant instant = Instant.from(datePickerDataNascimento.getValue().atStartOfDay(ZoneId.systemDefault()));
+			fuc.setDataNascimento(Date.from(instant));
 		}
 
+		if (txtSalario.getText() == null || txtSalario.getText().trim().equals("")) {
+			validationE.addErrors("salario", "Field can't be empty");
+		}
+		fuc.setSalarioBase(Utils.tryParseToDouble(txtSalario.getText()));
+
+		if(comboBoxDep.getValue() == null) {
+			validationE.addErrors("dep", "Field can't be empty");
+		} else {
+			fuc.setDepartamento(comboBoxDep.getValue());
+		}
+		
+		
 		if (validationE.getMapErrors().size() > 0) {
 			throw validationE;
 		}
@@ -162,11 +180,12 @@ public class FuncionarioFormController implements Initializable {
 		txtName.setText(String.valueOf(fuc.getNomeFuncionario()));
 		txtEmail.setText(String.valueOf(fuc.getEmail()));
 		txtSalario.setText(String.valueOf(fuc.getSalarioBase()));
-		if(fuc.getDataNascimento() != null) {
-			datePickerDataNascimento.setValue(LocalDate.ofInstant(fuc.getDataNascimento().toInstant(), ZoneId.systemDefault()));
+		if (fuc.getDataNascimento() != null) {
+			datePickerDataNascimento
+					.setValue(LocalDate.ofInstant(fuc.getDataNascimento().toInstant(), ZoneId.systemDefault()));
 		}
-		
-		if(fuc.getDepartamento() == null) {
+
+		if (fuc.getDepartamento() == null) {
 			comboBoxDep.getSelectionModel().selectLast();
 		} else {
 			comboBoxDep.setValue(fuc.getDepartamento());
@@ -193,17 +212,11 @@ public class FuncionarioFormController implements Initializable {
 	private void setErrorMessages(Map<String, String> errors) {
 		Set<String> keysErros = errors.keySet();
 
-		if (keysErros.contains("name")) {
-			lbErrorNome.setText(errors.get("name"));
-		}
-
-		if (keysErros.contains("email")) {
-			lbErrorEmail.setText(errors.get("email"));
-		}
-
-		if (keysErros.contains("Data")) {
-			lbErrorDataNascimento.setText(errors.get("Data"));
-		}
+		lbErrorNome.setText(keysErros.contains("name") ? "Field can't be empty" : "");
+		lbErrorEmail.setText(keysErros.contains("email") ? "Field can't be empty" : "");
+		lbErrorSalario.setText(keysErros.contains("salario") ? "Field can't be empty" : "");
+		lbErrorDataNascimento.setText(keysErros.contains("Data") ? "Field can't be empty" : "");
+		lbErrorDep.setText(keysErros.contains("dep") ? "Field can't be empty" : "");
 
 	}
 
