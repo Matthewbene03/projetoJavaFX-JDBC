@@ -195,7 +195,7 @@ public class FuncionarioDAOJDBC implements FuncionarioDAO {
         Integer idFun = rs.getInt("Id");
         String nameFun = rs.getString("Name");
         String emailFun = rs.getString("Email");
-        Date dataNascimento = rs.getDate("BirthDate");
+        Date dataNascimento = new java.util.Date(rs.getTimestamp("BirthDate").getTime()); 
         Double salarioFun = rs.getDouble("BaseSalary");
         return new Funcionario(idFun, nameFun, salarioFun, dataNascimento, emailFun, dep);
     }

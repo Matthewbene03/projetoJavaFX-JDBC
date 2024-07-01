@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Optional;
@@ -17,7 +18,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -25,6 +28,8 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class FuncionarioListController implements Initializable, DataChangeListener {
@@ -71,7 +76,7 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 
 	public void onBtNewAction(ActionEvent actionEv) {
 		Stage stage = Utils.currentStage(actionEv);
-		Funcionario auxFuc = new Funcionario();
+		Funcionario auxFuc = new Funcionario(null, "", null, null, "", null);
 		this.createDialogForm(auxFuc, "/gui/FuncionarioForm.fxml", stage);
 	}
 
@@ -101,27 +106,27 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 	}
 
 	public void createDialogForm(Funcionario auxFuc, String caminho, Stage parentStage) {
-//		try {
-//			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
-//			Pane pane = loader.load();
-//
-//			FucartmentFormController controller = loader.getController();
-//			controller.setFuncionario(auxFuc);
-//			controller.updateFuncionarioDate();
-//			controller.subscribeDataChangeListener(this);
-//			controller.setFucServico(new FuncionarioServiço());
-//
-//			Stage newStage = new Stage();
-//			newStage.setTitle("Enter departament: ");
-//			newStage.setScene(new Scene(pane));
-//			newStage.setResizable(false);
-//			newStage.initOwner(parentStage);
-//			newStage.initModality(Modality.WINDOW_MODAL);
-//			newStage.showAndWait();
-//
-//		} catch (IOException e) {
-//			Alerts.showAlert("IO exception", "Error para carregar pagina", e.getMessage(), AlertType.ERROR);
-//		}
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(caminho));
+			Pane pane = loader.load();
+
+			FuncionarioFormController controller = loader.getController();
+			controller.setFuncionario(auxFuc);
+			controller.updateFuncionarioDate();
+			controller.subscribeDataChangeListener(this);
+			controller.setFucServico(new FuncionarioServiço());
+
+			Stage newStage = new Stage();
+			newStage.setTitle("Enter funcionario: ");
+			newStage.setScene(new Scene(pane));
+			newStage.setResizable(false);
+			newStage.initOwner(parentStage);
+			newStage.initModality(Modality.WINDOW_MODAL);
+			newStage.showAndWait();
+
+		} catch (IOException e) {
+			Alerts.showAlert("IO exception", "Error para carregar pagina", e.getMessage(), AlertType.ERROR);
+		}
 	}
 
 	@Override
@@ -143,7 +148,7 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 				}
 				setGraphic(button);
 				button.setOnAction(
-						event -> createDialogForm(obj, "/gui/FucartmentForm.fxml", Utils.currentStage(event)));
+						event -> createDialogForm(obj, "/gui/FuncionarioForm.fxml", Utils.currentStage(event)));
 			}
 		});
 	}
